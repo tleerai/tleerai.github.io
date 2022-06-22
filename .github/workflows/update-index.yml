@@ -21,7 +21,6 @@ jobs:
           IFS=/ read PKG_REPO_OWNER PKG_REPO < $PKG_GITHUB_REPO
 #          PKG_REPO_OWNER=$(echo $PKG_GITHUB_REPO | cut -d '/' -f1)
 #          PKG_REPO=$(echo $PKG_GITHUB_REPO | cut -d '/' -f2)
-
           echo "PKG_REPO_OWNER is ${PKG_REPO_OWNER}"
           echo "PKG_REPO is $PKG_REPO"
 
