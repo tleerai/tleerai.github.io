@@ -1,0 +1,15 @@
+name: Build Main
+
+on:
+  workflow_dispatch: # This is used instead of the pull_request label type as the branch filter for expects the target branch and the closed trigger looks for base branch
+  repository_dispatch:
+    types: [on-demand-test]
+
+jobs:
+  update-retl:
+    if: ${{ github.event.client_payload.GITHUB_REPOSITORY == 'tleerai/fakeretl' }}
+    runs-on: ubuntu-20.04
+    steps:
+      - env:
+          PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
+        run: echo $PKG_REF
