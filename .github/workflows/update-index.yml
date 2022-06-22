@@ -7,9 +7,21 @@ on:
 
 jobs:
   update-retl:
-#    if: ${{ github.event.client_payload.GITHUB_REPOSITORY == 'tleerai/fakeretl' }}
+    if: ${{ github.event.client_payload.GITHUB_REPOSITORY == 'tleerai/fakeretl' }}
     runs-on: ubuntu-20.04
     steps:
       - env:
           PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
-        run: echo $PKG_REF
+      - uses: actions/checkout@v3
+      - run: |
+          ls -lah
+          echo "TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )" >> $GITHUB_ENV
+          echo "TAG_NAME $TAG_NAME"
+          echo "::set-output name=TAG_NAME::$(echo $PKG_REF | cut -d '/' -f3 )"
+          echo "TAG_NAME $TAG_NAME"
+
+#          git config user.name github-actions
+#          git config user.email github-actions@github.com
+#          git add .
+#          git commit -m "generated"
+#          git push
