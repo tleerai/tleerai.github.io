@@ -11,18 +11,18 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-#      - env:
-#          PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
-#          PKG_GITHUB_REPO: ${{ github.event.client_payload.GITHUB_REPOSITORY }}
+      - env:
+          PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
+          PKG_GITHUB_REPO: ${{ github.event.client_payload.GITHUB_REPOSITORY }}
       - run: |
           ls -lah
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
           echo "TAG_NAME $TAG_NAME"
-          IFS=/ read PKG_REPO_OWNER PKG_REPO < $PKG_GITHUB_REPO
+#          IFS=/ read PKG_REPO_OWNER PKG_REPO < $PKG_GITHUB_REPO
 #          PKG_REPO_OWNER=$(echo $PKG_GITHUB_REPO | cut -d '/' -f1)
 #          PKG_REPO=$(echo $PKG_GITHUB_REPO | cut -d '/' -f2)
-          echo "PKG_REPO_OWNER is ${PKG_REPO_OWNER}"
-          echo "PKG_REPO is $PKG_REPO"
+#          echo "PKG_REPO_OWNER is ${PKG_REPO_OWNER}"
+#          echo "PKG_REPO is $PKG_REPO"
 
 #          git config user.name github-actions
 #          git config user.email github-actions@github.com
