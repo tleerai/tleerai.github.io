@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - env:
-          PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
-          PKG_GITHUB_REPO: ${{ github.event.client_payload.GITHUB_REPOSITORY }}
-        run: |
+#      - env:
+#          PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
+#          PKG_GITHUB_REPO: ${{ github.event.client_payload.GITHUB_REPOSITORY }}
+      - run: |
           ls -lah
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
           echo "TAG_NAME $TAG_NAME"
