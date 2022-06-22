@@ -3,7 +3,7 @@ name: Update Index
 on:
   workflow_dispatch: # This is used instead of the pull_request label type as the branch filter for expects the target branch and the closed trigger looks for base branch
   repository_dispatch:
-    types: [on-demand-test]
+    types: [update-index]
 
 jobs:
   update-retl:
