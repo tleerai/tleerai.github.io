@@ -22,7 +22,9 @@ jobs:
           echo "PKG_REPO_OWNER is ${PKG_REPO_OWNER}"
           echo "PKG_REPO is $PKG_REPO"
           mkdir -p "${PKG_REPO}"
-          echo "<a href="git+https://github.com/$PKG_REPO_OWNER/$PKG_REPO.git@$TAG_NAME#egg=$PKG_REPO-$TAG_NAME" data-requires-python="&gt;=3.6.0">$PKG_REPO-$TAG_NAME</a><br/>" >> "$PKS_REPO/index.html"
+          cat << "EOF" > $PKS_REPO/index.html"
+          <a href="git+https://github.com/$PKG_REPO_OWNER/$PKG_REPO.git@$TAG_NAME#egg=$PKG_REPO-$TAG_NAME" data-requires-python="&gt;=3.6.0">$PKG_REPO-$TAG_NAME</a><br/>
+          EOF
           cat "$PKG_REPO/index.html"
 
           git config user.name github-actions
