@@ -10,11 +10,9 @@ jobs:
     if: ${{ github.event.client_payload.GITHUB_REPOSITORY == 'tleerai/fakeretl' }}
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v3
       - env:
           PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
-        run: |
-          echo $PKG_REF
-      - uses: actions/checkout@v3
         run: |
           ls -lah
           echo "TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )" >> $GITHUB_ENV
