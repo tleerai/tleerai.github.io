@@ -19,9 +19,11 @@ jobs:
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
           echo "TAG_NAME $TAG_NAME"
           IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
-          echo "PKG_REPO_OWNER is ${PKG_REPO_OWNER}"
-          echo "PKG_REPO is $PKG_REPO"
           mkdir -p "${PKG_REPO}"
+          ls -lah "$PKS_REPO"
+          cat "$PKS_REPO/index.html"
+          stat "$PKS_REPO/index.html"
+          ls -lah "$PKS_REPO/index.html"
           cat << "EOF" > "$PKS_REPO/index.html"
           <a href="git+https://github.com/$PKG_REPO_OWNER/$PKG_REPO.git@$TAG_NAME#egg=$PKG_REPO-$TAG_NAME" data-requires-python="&gt;=3.6.0">$PKG_REPO-$TAG_NAME</a><br/>
           EOF
