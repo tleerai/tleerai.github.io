@@ -16,11 +16,12 @@ jobs:
           PKG_GITHUB_REPO: ${{ github.event.client_payload.GITHUB_REPOSITORY }}
         run: |
           set -x
-          ls -lah
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
           echo "TAG_NAME $TAG_NAME"
           IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
           mkdir -p "${PKG_REPO}"
+          pwd
+          ls -lah
           ls -lah "${PKG_REPO}"
           cat "$PKG_REPO/index.html"
           stat "$PKG_REPO/index.html"
