@@ -12,8 +12,10 @@ jobs:
     steps:
       - env:
           PKG_REF: ${{ github.event.client_payload.PKG_GITHUB_REF }}
+        run: |
+          echo $PKG_REF
       - uses: actions/checkout@v3
-      - run: |
+        run: |
           ls -lah
           echo "TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )" >> $GITHUB_ENV
           echo "TAG_NAME $TAG_NAME"
