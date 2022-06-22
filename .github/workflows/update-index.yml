@@ -1,4 +1,4 @@
-name: Build Main
+name: Update Index
 
 on:
   workflow_dispatch: # This is used instead of the pull_request label type as the branch filter for expects the target branch and the closed trigger looks for base branch
@@ -7,7 +7,7 @@ on:
 
 jobs:
   update-retl:
-    if: ${{ github.event.client_payload.GITHUB_REPOSITORY == 'tleerai/fakeretl' }}
+#    if: ${{ github.event.client_payload.GITHUB_REPOSITORY == 'tleerai/fakeretl' }}
     runs-on: ubuntu-20.04
     steps:
       - env:
