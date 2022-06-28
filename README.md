@@ -11,3 +11,19 @@ These version and package names metadata are publicly visible on the internet ho
 `git+https://github.com/tleerai/fakeretl.git@0.0.3#egg=retl-0.1`
 
 These repositories are not accessible without github.com authentication.
+
+
+----
+
+If you see:
+Username for 'https://github.com':
+
+Then you do not have HTTPS authentication setup for github.com.
+
+
+----
+To configure pip to point at the custom repo:
+
+For mac/linux:
+
+mkdir -p ~/.config/pip/ && printf "[global]\nextra-index-url = https://radiusai.github.io/" > ~/.config/pip/pip.conf
