@@ -17,13 +17,13 @@ jobs:
           set -x
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
           echo "TAG_NAME $TAG_NAME"
+          IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
+          mkdir -p "${PKG_REPO}" #TODO: Expand check for existing package
           if grep -w "$TAG_NAME" "$PKG_REPO/index.html"
           then
             echo "A package with this version already exists: $TAG_NAME"
             exit 1
           fi
-          IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
-          mkdir -p "${PKG_REPO}"
           # Insert new package at line 1 of the index.html file. This is to ensure the newest package is grabbed by pip install without a pinned version
           cat << EOF | cat - "$PKG_REPO/index.html" > temp && mv temp "$PKG_REPO/index.html"
           <a href="git+https://github.com/${PKG_REPO_OWNER}/${PKG_REPO}.git@${TAG_NAME}#egg=${PKG_REPO}-${TAG_NAME}" data-requires-python="&gt;=3.6.0">${PKG_REPO}-${TAG_NAME}</a><br/>
