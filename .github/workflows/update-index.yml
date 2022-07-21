@@ -21,7 +21,7 @@ jobs:
           echo "$PKG_REPO_OWNER"
           echo "$PKG_REPO"
           set -x
-          sed -i '' "1s/.*/<div class=\"package\">\n<a href=\"$PKG_REPO\/\">$PKG_REPO<\/a><\/br>/" index.html
+          sed -i "1s/.*/<div class=\"package\">\n<a href=\"$PKG_REPO\/\">$PKG_REPO<\/a><\/br>/" index.html
 #           if [ ! -d ${PKG_REPO} ] # Check for package directory
 #           then
 #             echo "Package directory doesn't exist, creating now:
