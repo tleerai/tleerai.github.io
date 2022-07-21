@@ -17,9 +17,9 @@ jobs:
           set -x
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
           echo "TAG_NAME $TAG_NAME"
-          if [ grep "$TAG_NAME" "$PKG_REPO/index.html" ]
+          if grep -w "$TAG_NAME" "$PKG_REPO/index.html"
           then
-            echo "This tag already exists: $TAG_NAME"
+            echo "A package with this version already exists: $TAG_NAME"
             exit 1
           fi
           IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
