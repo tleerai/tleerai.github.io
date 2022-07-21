@@ -20,9 +20,10 @@ jobs:
           if ! grep -w "$PKG_REPO" "index.html" # Check for package listing
           then
             echo "Package listing missing, creating"
-            sed -i "1s/.*/<div class=\"package\">\n<a href=\"$PKG_REPO\/\">$PKG_REPO<\/a><\/br>/" index.html
+            sed -i "1s/.*/<div class=\"package\">\n<a href=\"$PKG_REPO\/\">$PKG_REPO<\/a><\/br>/" index.html # Inserts new package at the first line
             mkdir -p "${PKG_REPO}"
             touch "${PKG_REPO}/index.html"
+            git add "index.html"
           fi
           if grep -w "$TAG_NAME" "$PKG_REPO/index.html" # Check for package version
           then
@@ -36,7 +37,7 @@ jobs:
           cat "$PKG_REPO/index.html"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add "$PKG_REPO/index.html"
+          git add "$PKG_REPO"
           git status
           git commit -m "Inserted ${PKG_REPO}-${TAG_NAME}"
           git push
