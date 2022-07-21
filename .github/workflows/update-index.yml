@@ -16,11 +16,20 @@ jobs:
         run: |
           set -x
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
-          TAG_NAME="0.0.35a70"
           echo "TAG_NAME $TAG_NAME"
           IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
-          mkdir -p "${PKG_REPO}" #TODO: Expand check for existing package
-          if grep -w "$TAG_NAME" "$PKG_REPO/index.html"
+          if [ ! -d ${PKG_REPO} ] # Check for package directory
+          then
+            echo "Package directory doesn't exist, creating now:
+            mkdir -p "${PKG_REPO}"
+            touch "${PKG_REPO}/index.html"
+          fi
+          if ! grep -w "$PKG_REPO" "index.html" # Check for package listing
+          then
+            echo "Package listing missing, creating"
+            sed -i '' "1s/.*/<div class=\"package\">\n<a href=\"$PKG_REPO\/\">$PKG_REPO<\/a><\/br>/" index.html
+          fi
+          if grep -w "$TAG_NAME" "$PKG_REPO/index.html" # Check for package version
           then
             echo "A package with this version already exists: $TAG_NAME"
             exit 1
