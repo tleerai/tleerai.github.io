@@ -16,6 +16,7 @@ jobs:
         run: |
           set -x
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
+          TAG_NAME="0.0.35a70"
           echo "TAG_NAME $TAG_NAME"
           IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
           mkdir -p "${PKG_REPO}" #TODO: Expand check for existing package
