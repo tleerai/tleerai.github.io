@@ -18,6 +18,9 @@ jobs:
           TAG_NAME=$(echo $PKG_REF | cut -d '/' -f3 )
           echo "TAG_NAME $TAG_NAME"
           IFS=/ read PKG_REPO_OWNER PKG_REPO <<< $PKG_GITHUB_REPO
+          echo "$PKG_REPO_OWNER"
+          echo "$PKG_REPO"
+          set -x
           if [ ! -d ${PKG_REPO} ] # Check for package directory
           then
             echo "Package directory doesn't exist, creating now:
