@@ -54,7 +54,6 @@ jobs:
       SLACK_NOTIFY: ${{ steps.update-index.outputs.SLACK_NOTIFY }}
 
   notify-slack:
-    if: ${{ needs.update-index.outputs.SLACK_NOTIFY == 'true' }}
     name: Notify Slack
     needs: update-index
     runs-on: ubuntu-22.04
