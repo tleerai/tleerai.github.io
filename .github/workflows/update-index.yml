@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.sha }}
+          ref: main # This is the Github Pages branch
       - name: Insert new build
         id: update-index
         run: |
