@@ -58,8 +58,8 @@ jobs:
     needs: update-index
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "${{ github.event.client_payload.SLACK_NOTIFY }}
-      - run: echo ${{ needs.update-index.outputs.SLACK_NOTIFY }}
+      - run: echo "${{ github.event.client_payload.SLACK_NOTIFY }}"
+      - run: echo "${{ needs.update-index.outputs.SLACK_NOTIFY }}"
       - name: Send Slack message
         uses: slackapi/slack-github-action@v1.19.0
         with:
