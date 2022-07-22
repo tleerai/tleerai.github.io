@@ -15,6 +15,12 @@ jobs:
           PKG_REPO_OWNER: ${{ github.event.client_payload.PKG_REPO_OWNER }}
           PKG_REPO: ${{ github.event.client_payload.PKG_REPO }}
         run: |
+          echo "${{ github.event.client_payload.TAG_NAME }}"
+          echo "${{ github.event.client_payload.PKG_REPO_OWNER }}"
+          echo "${{ github.event.client_payload.PKG_REPO }}"
+          echo "$TAG_NAME"
+          echo "$PKG_REPO_OWNER"
+          echo "$PKG_REPO"
           if ! grep -qw "$PKG_REPO" "index.html" # Check for package listing
           then
             echo "Package listing missing, creating"
