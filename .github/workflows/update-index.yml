@@ -19,9 +19,6 @@ jobs:
           echo "::set-output name=TAG_NAME::$TAG_NAME"
           echo "::set-output name=PKG_REPO_OWNER::$PKG_REPO_OWNER"
           echo "::set-output name=PKG_REPO::$PKG_REPO"
-          echo "TAG_NAME: $TAG_NAME"
-          echo "github.ref_name: ${{ github.ref_name }}
-          echo "github.ref: ${{ github.ref }}
           if ! grep -qw "$PKG_REPO" "index.html" # Check for package listing
           then
             echo "Package listing missing, creating"
@@ -71,16 +68,16 @@ jobs:
       - name: Variable Check
         run: |
           echo "SLACK_NOTIFY: ${{ steps.slack-flag.outputs.SLACK_NOTIFY }}
-          echo "TAG_NAME: ${{ steps.slack-flag.outputs.TAG_NAME }}
-          echo "PKG_REPO_OWNER: ${{ steps.slack-flag.outputs.PKG_REPO_OWNER }}
-          echo "PKG_REPO: ${{ steps.slack-flag.outputs.PKG_REPO }}
+          echo "TAG_NAME: ${{ steps.update-index.outputs.TAG_NAME }}
+          echo "PKG_REPO_OWNER: ${{ steps.update-index.outputs.PKG_REPO_OWNER }}
+          echo "PKG_REPO: ${{ steps.update-index.outputs.PKG_REPO }}
     outputs:
       SLACK_NOTIFY: ${{ steps.slack-flag.outputs.SLACK_NOTIFY }} # Make step output available to next job
       TAG_NAME: ${{ steps.update-index.outputs.TAG_NAME }}
       PKG_REPO: ${{ steps.update-index.outputs.PKG_REPO }}
 
   notify-slack:
-    if: needs.update-index.outputs.SLACKNOTIFY == 'true'
+    if: needs.update-index.outputs.SLACK_NOTIFY == 'true'
     name: Notify Slack
     needs: update-index
     runs-on: ubuntu-22.04
