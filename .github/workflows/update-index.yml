@@ -52,16 +52,34 @@ jobs:
     needs: update-index
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Send Slack Notification
+      - name: Send Slack message
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          payload: |
+            {
+              "text": "New python package ${{ github.event.client_payload.PKG_REPO }} is available with version ${{ github.event.client_payload.TAG_NAME }}.",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "If you are using this package please update your package references in requirements.txt files. For questions and concerns, please use the #cicd channel."
+                  }
+                }
+              ]
+            }
         env:
-          TAG_NAME: ${{ github.event.client_payload.TAG_NAME }}
-          PKG_REPO_OWNER: ${{ github.event.client_payload.PKG_REPO_OWNER }}
-          PKG_REPO: ${{ github.event.client_payload.PKG_REPO }}
-          SLACK_NOTIFY: ${{ github.event.client_payload.SLACK_NOTIFY }}
-        run: |
-          echo "Sending slack message"
-          SLACK_CURL_URL="${SLACK_WEBHOOK_URL:-https://hooks.slack.com/services/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}"
-          curl -s --fail -X POST -H 'Content-type: application/json' --data '{"text":"'"$SLACK_MESSAGE"'"}' $SLACK_CURL_URL
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+#      - name: Send Slack Notification
+#        env:
+#          TAG_NAME: ${{ github.event.client_payload.TAG_NAME }}
+#          PKG_REPO_OWNER: ${{ github.event.client_payload.PKG_REPO_OWNER }}
+#          PKG_REPO: ${{ github.event.client_payload.PKG_REPO }}
+#          SLACK_NOTIFY: ${{ github.event.client_payload.SLACK_NOTIFY }}
+#        run: |
+#          echo "Sending slack message"
+#          SLACK_CURL_URL="${SLACK_WEBHOOK_URL:-https://hooks.slack.com/services/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}"
+#          curl -s --fail -X POST -H 'Content-type: application/json' --data '{"text":"'"$SLACK_MESSAGE"'"}' $SLACK_CURL_URL
 
           
