@@ -16,7 +16,6 @@ jobs:
           PKG_REPO_OWNER: ${{ github.event.client_payload.PKG_REPO_OWNER }}
           PKG_REPO: ${{ github.event.client_payload.PKG_REPO }}
         run: |
-          echo "::set-output name=SLACK_NOTIFY::${{ github.event.client_payload.SLACK_NOTIFY }}"
           echo "$TAG_NAME"
           echo "$PKG_REPO_OWNER"
           echo "$PKG_REPO"
@@ -54,12 +53,11 @@ jobs:
       SLACK_NOTIFY: ${{ steps.update-index.outputs.SLACK_NOTIFY }}
 
   notify-slack:
+    if: github.event.client_payload.SLACK_NOTIFY == 'true'
     name: Notify Slack
     needs: update-index
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "${{ github.event.client_payload.SLACK_NOTIFY }}"
-      - run: echo "${{ needs.update-index.outputs.SLACK_NOTIFY }}"
       - name: Send Slack message
         uses: slackapi/slack-github-action@v1.19.0
         with:
