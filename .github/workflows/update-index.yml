@@ -10,13 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: main # This is the Github Pages branch
+          ref: main # This is the Github Pages branch we are trying to push commits to
       - name: Insert new build
         id: update-index
         run: |
           TAG_NAME=${{ github.event.client_payload.GITHUB_REF_NAME }}
           IFS=/ read PKG_REPO_OWNER PKG_REPO <<< ${{ github.event.client_payload.GITHUB_REPOSITORY }}
-          echo "::set-output name=TAG_NAME::$TAG_NAME"
           echo "::set-output name=PKG_REPO_OWNER::$PKG_REPO_OWNER"
           echo "::set-output name=PKG_REPO::$PKG_REPO"
           if ! grep -qw "$PKG_REPO" "index.html" # Check for package listing
@@ -52,7 +51,7 @@ jobs:
       - name: Set Slack Flag
         id: slack-flag
         env:
-          TAG_NAME: ${{ steps.update-index.outputs.TAG_NAME }}
+          TAG_NAME: ${{ github.event.client_payload.GITHUB_REF_NAME }}
         run: |
           final='^([0-9]+\.){0,2}(\*|[0-9]+)$'
           beta='^([0-9]+\.){0,2}(\*|[0-9]+)(\*|b[0-9]+)$'
@@ -68,12 +67,11 @@ jobs:
       - name: Variable Check
         run: |
           echo "SLACK_NOTIFY: ${{ steps.slack-flag.outputs.SLACK_NOTIFY }}
-          echo "TAG_NAME: ${{ steps.update-index.outputs.TAG_NAME }}
+          echo "TAG_NAME: ${{ github.event.client_payload.GITHUB_REF_NAME }}
           echo "PKG_REPO_OWNER: ${{ steps.update-index.outputs.PKG_REPO_OWNER }}
           echo "PKG_REPO: ${{ steps.update-index.outputs.PKG_REPO }}
     outputs:
       SLACK_NOTIFY: ${{ steps.slack-flag.outputs.SLACK_NOTIFY }} # Make step output available to next job
-      TAG_NAME: ${{ steps.update-index.outputs.TAG_NAME }}
       PKG_REPO: ${{ steps.update-index.outputs.PKG_REPO }}
 
   notify-slack:
@@ -92,7 +90,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "New python package `${{ needs.update-index.outputs.PKG_REPO }}` is available with version `${{ needs.update-index.outputs.TAG_NAME }}`. If you are using this package please update your package references in requirements.txt files. For questions and concerns, please use the #cicd channel."
+                    "text": "New python package `${{ needs.update-index.outputs.PKG_REPO }}` is available with version `${{ github.event.client_payload.GITHUB_REF_NAME }}`. If you are using this package please update your package references in requirements.txt files. For questions and concerns, please use the #cicd channel."
                   }
                 }
               ]
